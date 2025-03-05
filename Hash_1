@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        FindPhoneNumber();
+    }
+
+    static void FindPhoneNumber()
+    {
+        Dictionary<string, string> phoneBook = new Dictionary<string, string>();
+        string filePath = "std.txt";
+        if (File.Exists(filePath))
+        {
+            foreach (var line in File.ReadAllLines(filePath))
+            {
+                var parts = line.Split(',');
+                if (parts.Length == 2)
+                {
+                    phoneBook[parts[0].Trim()] = parts[1].Trim();
+                }
+            }
+        }
+
+        phoneBook["Vy"] = "0963546607"; 
+
+        Console.Write("Nhap ten de tim sdt: ");
+        string name = Console.ReadLine();
+        if (phoneBook.ContainsKey(name))
+        {
+            Console.WriteLine($"SDT cua {name}: {phoneBook[name]}");
+        }
+        else
+        {
+            Console.WriteLine("Khong tim thay sdt trong danh ba");
+        }
+        Console.Write("Nhap sdt de tim ten: ");
+        string phoneNumber = Console.ReadLine();
+        bool found = false;
+        foreach (var entry in phoneBook)
+        {
+            if (entry.Value == phoneNumber)
+            {
+                Console.WriteLine($"SDT {phoneNumber} thuoc ve: {entry.Key}");
+                found = true;
+                break;
+            }
+        }
+        if (!found)
+        {
+            Console.WriteLine("Khong tim thay sdt trong danh ba");
+        }
+    }
+}
